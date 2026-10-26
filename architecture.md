@@ -160,15 +160,15 @@ The schema satisfies all criteria for Third Normal Form (3NF):
 
 | Table | Type | Rows (Sample) | Primary Key | Key Relationships |
 | :--- | :--- | :--- | :--- | :--- |
-| `location` | Master Entity | 8 | `location_id` | Referenced by `accident` |
-| `road` | Master Entity | 6 | `road_id` | Referenced by `accident` |
+| `location` | Master Entity | 10 | `location_id` | Referenced by `accident` |
+| `road` | Master Entity | 8 | `road_id` | Referenced by `accident` |
 | `weather_condition` | Lookup | 5 | `weather_id` | Referenced by `accident` |
 | `severity` | Lookup | 3 | `severity_id` | Referenced by `accident`, `victim` |
 | `accident_cause` | Lookup | 6 | `cause_id` | Referenced by `accident` |
 | `vehicle_type` | Lookup | 5 | `vehicle_type_id` | Referenced by `accident_vehicle` |
-| `accident` | Event Fact Entity | 43+ | `accident_id` | References 5 master tables |
-| `accident_vehicle` | Associative Junction | 70+ | `(accident_id, vehicle_type_id)` | Resolves M:N Accident ↔ Vehicle Type |
-| `victim` | Dependent Entity | 64+ | `victim_id` | Child of `accident`, references `severity` |
+| `accident` | Event Fact Entity | 100 | `accident_id` | References 5 master tables |
+| `accident_vehicle` | Associative Junction | 164 | `(accident_id, vehicle_type_id)` | Resolves M:N Accident ↔ Vehicle Type |
+| `victim` | Dependent Entity | 137 | `victim_id` | Child of `accident`, references `severity` |
 
 ### Database Constraints & Safeguards
 - **Coordinate Bounds**: `CHECK (latitude BETWEEN -90 AND 90 AND longitude BETWEEN -180 AND 180)` ensures invalid GPS data cannot enter the system.
