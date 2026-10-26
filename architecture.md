@@ -166,9 +166,9 @@ The schema satisfies all criteria for Third Normal Form (3NF):
 | `severity` | Lookup | 3 | `severity_id` | Referenced by `accident`, `victim` |
 | `accident_cause` | Lookup | 6 | `cause_id` | Referenced by `accident` |
 | `vehicle_type` | Lookup | 5 | `vehicle_type_id` | Referenced by `accident_vehicle` |
-| `accident` | Event Fact Entity | 100 | `accident_id` | References 5 master tables |
-| `accident_vehicle` | Associative Junction | 164 | `(accident_id, vehicle_type_id)` | Resolves M:N Accident ↔ Vehicle Type |
-| `victim` | Dependent Entity | 137 | `victim_id` | Child of `accident`, references `severity` |
+| `accident` | Event Fact Entity | 840 | `accident_id` | References 5 master tables |
+| `accident_vehicle` | Associative Junction | 1,310 | `(accident_id, vehicle_type_id)` | Resolves M:N Accident ↔ Vehicle Type |
+| `victim` | Dependent Entity | 1,131 | `victim_id` | Child of `accident`, references `severity` |
 
 ### Database Constraints & Safeguards
 - **Coordinate Bounds**: `CHECK (latitude BETWEEN -90 AND 90 AND longitude BETWEEN -180 AND 180)` ensures invalid GPS data cannot enter the system.

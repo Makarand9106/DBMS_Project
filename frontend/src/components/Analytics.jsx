@@ -83,7 +83,7 @@ export default function Analytics() {
       {/* Chart 2: Accidents by Weather Condition */}
       <div className="chart-card">
         <h3>2. Severity Breakdown by Weather Condition</h3>
-        <div style={{ width: '100%', height: 320 }}>
+        <div style={{ width: '100%', height: 500 }}>
           <ResponsiveContainer>
             <BarChart
               data={stats.by_weather}
