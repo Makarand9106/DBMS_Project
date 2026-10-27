@@ -44,10 +44,9 @@ app.get('/api/hotspots', async (req, res) => {
   }
 });
 
-// ----------------------------------------------------------------------------
 // 2. GET /api/stats
 // Returns multi-dimensional aggregations: by cause, by weather, by month, and by hour band.
-// ----------------------------------------------------------------------------
+
 app.get('/api/stats', async (req, res) => {
   try {
     // 2a. Accidents grouped by cause
@@ -144,10 +143,9 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// ----------------------------------------------------------------------------
 // 3. GET /api/lookups
 // Catalog of master entities required for populating client-side UI forms.
-// ----------------------------------------------------------------------------
+
 app.get('/api/lookups', async (req, res) => {
   try {
     const [
@@ -181,11 +179,10 @@ app.get('/api/lookups', async (req, res) => {
   }
 });
 
-// ----------------------------------------------------------------------------
 // 4. POST /api/predict
 // Invokes the MySQL stored procedure `sp_predict_severity` using raw SQL.
 // Returns the modal predicted severity and the probability distribution across all levels.
-// ----------------------------------------------------------------------------
+
 app.post('/api/predict', async (req, res) => {
   try {
     const { road_type, weather_id, cause_id, hour_band } = req.body;
@@ -215,7 +212,7 @@ app.post('/api/predict', async (req, res) => {
     }
 
     // Call stored procedure with parameterised values.
-    // In mysql2, procedure results are returned inside nested arrays: [ [rows], [metadata] ]
+
     const [results] = await pool.query('CALL sp_predict_severity(?, ?, ?, ?);', [
       road_type,
       Number(weather_id),
