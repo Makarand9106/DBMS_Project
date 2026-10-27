@@ -1,10 +1,4 @@
--- ============================================================================
--- Project: Road Accident Hotspot Analysis and Severity Prediction System
--- Component: Database Schema Definition (DDL)
--- Target RDBMS: MySQL 8.0+
--- Normal Form: Third Normal Form (3NF)
--- ============================================================================
-
+-- Create the accident db
 DROP DATABASE IF EXISTS accident_db;
 CREATE DATABASE accident_db
     CHARACTER SET utf8mb4
@@ -12,10 +6,9 @@ CREATE DATABASE accident_db
 
 USE accident_db;
 
--- ----------------------------------------------------------------------------
 -- Table 1: location
 -- Stores spatial and geographic reference points where accidents occur.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE location (
     location_id INT AUTO_INCREMENT PRIMARY KEY,
     location_name VARCHAR(150) NOT NULL,
@@ -26,10 +19,9 @@ CREATE TABLE location (
     CONSTRAINT chk_longitude CHECK (longitude BETWEEN -180.000000 AND 180.000000)
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
 -- Table 2: road
 -- Stores roadway infrastructure characteristics and classifications.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE road (
     road_id INT AUTO_INCREMENT PRIMARY KEY,
     road_name VARCHAR(150) NOT NULL,
@@ -42,19 +34,18 @@ CREATE TABLE road (
     CONSTRAINT chk_speed_limit CHECK (speed_limit > 0)
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
 -- Table 3: weather_condition
 -- Lookup table for standardized atmospheric and meteorological states.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE weather_condition (
     weather_id INT AUTO_INCREMENT PRIMARY KEY,
     condition_name VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
+
 -- Table 4: severity
 -- Lookup table for standardized crash severity rankings (Minor=1, Serious=2, Fatal=3).
--- ----------------------------------------------------------------------------
+
 CREATE TABLE severity (
     severity_id INT AUTO_INCREMENT PRIMARY KEY,
     level_name VARCHAR(30) NOT NULL UNIQUE,
@@ -63,20 +54,18 @@ CREATE TABLE severity (
     CONSTRAINT chk_level_rank CHECK (level_rank IN (1, 2, 3))
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
 -- Table 5: accident_cause
 -- Standardized catalog of primary incident causes and causal categories.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE accident_cause (
     cause_id INT AUTO_INCREMENT PRIMARY KEY,
     cause_name VARCHAR(100) NOT NULL UNIQUE,
     category VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
 -- Table 6: accident
 -- Core fact entity capturing individual accident incidents and environment FKs.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE accident (
     accident_id INT AUTO_INCREMENT PRIMARY KEY,
     accident_date DATE NOT NULL,
@@ -107,19 +96,19 @@ CREATE TABLE accident (
     INDEX idx_accident_severity (severity_id)
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
+
 -- Table 7: vehicle_type
 -- Lookup catalog of motorized and non-motorized vehicle categories.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE vehicle_type (
     vehicle_type_id INT AUTO_INCREMENT PRIMARY KEY,
     type_name VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
+
 -- Table 8: accident_vehicle
 -- Associative entity resolving Many-to-Many between accidents and vehicles.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE accident_vehicle (
     accident_id INT NOT NULL,
     vehicle_type_id INT NOT NULL,
@@ -132,10 +121,10 @@ CREATE TABLE accident_vehicle (
         ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
--- ----------------------------------------------------------------------------
+
 -- Table 9: victim
 -- Captures individuals involved in collisions and their injury severities.
--- ----------------------------------------------------------------------------
+
 CREATE TABLE victim (
     victim_id INT AUTO_INCREMENT PRIMARY KEY,
     accident_id INT NOT NULL,

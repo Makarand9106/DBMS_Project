@@ -1,18 +1,12 @@
--- ============================================================================
--- Project: Road Accident Hotspot Analysis and Severity Prediction System
--- Component: Analytical Views, Queries, and Severity Prediction Procedure
--- Target RDBMS: MySQL 8.0+
--- ============================================================================
-
 USE accident_db;
 
--- ----------------------------------------------------------------------------
+
 -- 1. VIEW: v_hotspot_ranking
 -- Calculates per-location metrics: total accident volume, fatal crashes,
 -- and composite risk_score (SUM of severity level ranks: Minor=1, Serious=2, Fatal=3).
 -- Ordered by risk_score DESC to immediately highlight top hazard zones.
--- ----------------------------------------------------------------------------
-CREATE OR REPLACE VIEW v_hotspot_ranking AS
+
+CREATE VIEW v_hotspot_ranking AS
 SELECT 
     l.location_id,
     l.location_name,
@@ -35,10 +29,9 @@ ORDER BY
     risk_score DESC, 
     total_accidents DESC;
 
--- ----------------------------------------------------------------------------
 -- 2. Query: Top 5 Hotspots
 -- Retrieves the top 5 most dangerous geographical locations ranked by risk score.
--- ----------------------------------------------------------------------------
+
 SELECT 
     location_id,
     location_name,
@@ -51,11 +44,10 @@ SELECT
 FROM v_hotspot_ranking
 LIMIT 5;
 
--- ----------------------------------------------------------------------------
 -- 3. Query: Accidents by Month
 -- Chronological time-series analysis showing accident volume and severity
 -- breakdown across months from 2023 to 2025.
--- ----------------------------------------------------------------------------
+
 SELECT 
     DATE_FORMAT(a.accident_date, '%Y-%m') AS accident_month,
     COUNT(a.accident_id) AS total_accidents,
@@ -67,11 +59,10 @@ JOIN severity s ON a.severity_id = s.severity_id
 GROUP BY DATE_FORMAT(a.accident_date, '%Y-%m')
 ORDER BY accident_month ASC;
 
--- ----------------------------------------------------------------------------
 -- 4. Query: Accidents by Cause
 -- Causal breakdown showing frequencies, percentage of total collisions,
 -- fatalities, and average severity rank.
--- ----------------------------------------------------------------------------
+
 SELECT 
     ac.cause_id,
     ac.cause_name,
@@ -263,11 +254,10 @@ END //
 
 DELIMITER ;
 
--- ----------------------------------------------------------------------------
 -- 8. Procedure Execution Examples
--- ----------------------------------------------------------------------------
 -- Example 1: High-risk scenario (Highway, Rain, Over-speeding, Night)
 -- Expectation: Matches historical records and predicts 'Fatal'.
+
 CALL sp_predict_severity('Highway', 2, 1, 'Night');
 
 -- Example 2: Fallback scenario with unseen condition combination
