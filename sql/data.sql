@@ -1,8 +1,6 @@
--- ============================================================================
 -- Project: Road Accident Hotspot Analysis and Severity Prediction System
 -- Component: Dynamic Benchmark Dataset (DML) with Real-world Variation
 -- Total Accidents: 840 (Full 360-case coverage + prominent variations)
--- ============================================================================
 
 USE accident_db;
 

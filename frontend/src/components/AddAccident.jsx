@@ -99,10 +99,7 @@ export default function AddAccident() {
   return (
     <div className="tab-container">
       <h2>Record New Accident</h2>
-      <p className="subtitle">
-        Submits incident data with foreign key lookups and inserts into <code>accident</code> and{' '}
-        <code>accident_vehicle</code> inside a database transaction.
-      </p>
+      <p className="subtitle"> </p>
 
       {successMessage && <div className="success-banner">{successMessage}</div>}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
